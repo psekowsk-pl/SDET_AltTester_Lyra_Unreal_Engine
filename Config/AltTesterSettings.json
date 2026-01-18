@@ -1,0 +1,7 @@
+{
+    "AppName": "__default__",
+    "Host": "127.0.0.1",
+    "Port": 13000,
+    "EnableLogging": true,
+    "ConnectTimeout": 60
+}
