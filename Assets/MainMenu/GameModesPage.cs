@@ -1,5 +1,3 @@
-using AltTester.AltTesterSDK.Driver;
-
 namespace Assets.GameModesPage;
 
 public static class GameModesPage

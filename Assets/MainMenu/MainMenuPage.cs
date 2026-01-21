@@ -1,5 +1,3 @@
-using AltTester.AltTesterSDK.Driver;
-
 namespace Assets.MainMenuPage;
 
 public static class MainMenuPage

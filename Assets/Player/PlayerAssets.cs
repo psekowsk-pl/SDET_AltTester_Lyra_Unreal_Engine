@@ -1,11 +1,13 @@
 using AltTester.AltTesterSDK.Driver;
-
 namespace Assets.PlayerAssets;
 
 public static class PlayerAssets
 {
+    // Hero
+    private static string HeroPath => "//*[contains(@name,Hero)]";
+
     // Player
-    private static string PlayerPath => "//*[contains(@name,Hero)]";
+    public static string PlayerControllerPath => "//*[contains(@name,LyraPlayerController)]";
 
     // Gun assets
     public const string MagAmmoLeftText = "AmmoLeftInMagazineWidget";
@@ -15,26 +17,28 @@ public static class PlayerAssets
     private static AltKeyCode ShootButton => AltKeyCode.Mouse0;
     private static AltKeyCode JumpButton => AltKeyCode.Space;
 
-    // Player function
-    public static AltObject GetPlayer(this AltDriver driver, bool isMainPlayer = true)
+    // Heros function
+    public static bool PlayerHasBeenSpawned(this AltDriver driver) => driver.WaitForObject(By.NAME, driver.GetHero().name).enabled;
+
+    public static AltObject GetHero(this AltDriver driver, bool isPlayer = true)
     {
         try
         {
-            var players = driver.FindObjects(By.PATH, PlayerPath);
-            foreach (var player in players)
+            var heros = driver.FindObjects(By.PATH, HeroPath);
+            foreach (var hero in heros)
             {
-                var isBotControlled = player.CallComponentMethod<bool>("Pawn", "IsBotControlled", "", []);
-                if (isMainPlayer ? !isBotControlled : isBotControlled)
+                var isBotControlled = hero.CallComponentMethod<bool>("Pawn", "IsBotControlled", "", []);
+                if (isPlayer ? !isBotControlled : isBotControlled)
                 {
-                    return player;
+                    return hero;
                 }
             }
 
-            throw new Exception("Couldn't find the player.");
+            throw new Exception("Couldn't find the hero.");
         }
         catch (Exception exc)
         {
-            throw new Exception($"Couldn't find anything with this path: {PlayerPath}.", exc);
+            throw new Exception($"Couldn't find anything with this path: {HeroPath}.", exc);
         }
     }
 
@@ -44,7 +48,10 @@ public static class PlayerAssets
     {
         for (int i = 0; i < bulletsToShoot; i++)
         {
-            Thread.Sleep(300);
+            // Delay between shots
+            Thread.Sleep(200);
+
+            // Shoot
             driver.PressKey(ShootButton);
         }
     }

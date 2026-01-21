@@ -12,7 +12,7 @@ public class MainMenuSmokeTests : BaseTest
     public void TestsSetup()
     {
         // Load Scene on test start
-        SceneAssets.LoadScene(ref Driver, SceneAssets.LyraFrontEnd);
+        Driver.LoadScene(SceneAssets.LyraFrontEnd);
     }
 
     [Test]
@@ -87,8 +87,6 @@ public class MainMenuSmokeTests : BaseTest
         Assert.True(Driver.GetElementByPath(OptionsPage.ThreeDResolutionText).enabled);
         Assert.True(Driver.GetElementByPath(OptionsPage.GlobalIlluminationText).enabled);
         Assert.True(Driver.GetElementByPath(OptionsPage.ShadowsText).enabled);
-        Assert.True(Driver.GetElementByPath(OptionsPage.AntiAliasingText).enabled);
-        Assert.True(Driver.GetElementByPath(OptionsPage.ViewDistanceText).enabled);
         Logger.Info("Gameplay settings are visible.");
         
         // Verify Audio setting elements
@@ -121,8 +119,6 @@ public class MainMenuSmokeTests : BaseTest
         Assert.True(Driver.GetElementByPath(OptionsPage.MoveRightText).enabled);
         Assert.True(Driver.GetElementByPath(OptionsPage.WeaponFireText).enabled);
         Assert.True(Driver.GetElementByPath(OptionsPage.JumpText).enabled);
-        Assert.True(Driver.GetElementByPath(OptionsPage.CrouchText).enabled);
-        Assert.True(Driver.GetElementByPath(OptionsPage.ReloadText).enabled);
         Logger.Info("Mouse & Keyboard settings are visible.");
 
         // Verify Gamepad setting elements

@@ -23,9 +23,11 @@ public static class SceneAssets
     public static string TransitionMap => $"TransitionMap";
 
     // Functions
-    public static void LoadScene(ref AltDriver driver, string sceneName)
+    public static void LoadScene(this AltDriver driver, string sceneName)
     {
         driver.LoadScene(sceneName);
+
+        // Verify if Scene has been changed
         driver.WaitForCurrentSceneToBe(sceneName);
     }
 }
