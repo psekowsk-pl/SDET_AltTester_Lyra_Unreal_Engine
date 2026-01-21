@@ -65,9 +65,21 @@ The issue will be resolved and you will be able to open Lyra project.
 ## 5. Overall Test Architecture
 ### a) Code architecture model
 This project depends on the driver, so it can't become stale at any point. I couldn't use the POM (Page Object Model), so I've decided to use static classes, functions and variables. This decision allowed me to create seperate files with locators and methods, that I can use any time in the test.
+
 <img width="1038" height="482" alt="obraz" src="https://github.com/user-attachments/assets/dd675789-9564-4499-8e8d-4da0ff803905" />
 
-### b) 
+### b) Utilities
+The project is using json's files and functions for driver configuration. This design allows me to hide critical data (api key, passwords) in secrets.json, so it will be safe from unintentional git push into remote repository.
+
+There's also a custom made Logger that allows a programmer to add new lines of logs into the file report. The report itself, will be generated at the end of test execution, regardless of it's results.
+
+### c) Driver extention
+This static class contains functions, that can be used any time you want. It contains:
+
+* GetElementByPath() - this method will wait for and object and return it. You need to use the PATH to make it work.
+* DoubleCheckClick() - this method will try to click the element multiple times, until the necessary object will popup. It will decrease the amount of false negative results.
+
+Some locators are not using GetElementByPath() function, because they needed different logic to achieve specific goals (GetHero(), GetAmmoCount(), ext.).
 
 ## 6. Smoke tests
 Smoke tests are small and quick. Their goal is to confirm that the basic functionality of the game is working as expected, before executing more complex Regression, Performance, Integration and E2E tests.
@@ -98,3 +110,16 @@ Test design:
 * Verify if player has been spawned.
 * Complete the test.
 * Assert.
+
+## 7. Custom Helper Method - AimHelper -> RotatePlayerToObject()
+This method allows the test to set a new camera angle for the player towards the set target. It has been designed 100% in Automation repository without any game code modifications.
+
+### a) How to make it work?
+My first idea was to take an inspiration from a different functionality, that we can see in a lot of TPP games, which is a camera movement on the obstacle, behind the player. This one is using an invisible line, so the camera can move closer or futher from the player, whenever it's needed. 
+
+I've decided to use something similiar, using just 2 coordinates: player's location and target's location. Based on those 2 variables, I can use the build-in UKismetMathLibrary with FindLookAtRotation static function, that can return the direction angle. I had to add a small offset, so the player will have a crosshair directly on the target. To finish the function I have to update the Player's Controller rotation and it is done.
+
+The Unreal Engine 5 is returning the rotation values in string, so I hade to create a Parse function, that is splitting them into the more handy struct with public variables.
+
+### b) How the test is using the RotatePlayerToObject method?
+The test is starting with setting a player's aim into the air, to avoid a possibility to get a false positive results. Then the tests needs you to set the target object name and the custom rotation offset if needed when using the RotatePlayerToObject method. The test itself will try to get an actor that is not a Player (it is controlled by AI) and set a new rotation for them. At the end the assert will be executed, to check if the rotation has been changed.
