@@ -64,7 +64,7 @@ The issue will be resolved and you will be able to open Lyra project.
 
 ## 5. Overall Test Architecture
 ### a) Code architecture model
-This project depends on the driver, so it can't become stale at any point. I couldn't use the POM (Page Object Model), so I've decided to use static classes, functions and variables. This decision allowed me to create seperate files with locators and methods, that I can use any time in the test.
+This project depends on the driver, so it can't become stale at any point. Due to the nature of AltTester and runtime dependency on the game state, the project does not use the (Page Object Model). Instead, a static utility-based architecture was implemented (static classes, functions and variables). This decision allowed me to create seperate files with locators and methods, that I can use any time in the test.
 
 <img width="1038" height="482" alt="obraz" src="https://github.com/user-attachments/assets/dd675789-9564-4499-8e8d-4da0ff803905" />
 
@@ -86,7 +86,7 @@ Smoke tests are small and quick. Their goal is to confirm that the basic functio
 
 Every test file contains **TestsSetup()** function, that loads a preset scene to load. 
 
-This project contains 3 types of Smoke tests:
+This project contains 3 types of smoke tests:
 
 ### a) MainMenuSmokeTests - those tests are validating the main menu elements.
 
@@ -111,6 +111,8 @@ Test design:
 * Complete the test.
 * Assert.
 
+These smoke tests were designed to be light and quick, so anyone running them can get a quick feedback for core gameplay functionality sector. This is a good practice, before executing more complex tests.
+
 ## 7. Custom Helper Method - AimHelper -> RotatePlayerToObject()
 This method allows the test to set a new camera angle for the player towards the set target. It has been designed 100% in Automation repository without any game code modifications.
 
@@ -123,3 +125,6 @@ The Unreal Engine 5 is returning the rotation values in string, so I hade to cre
 
 ### b) How the test is using the RotatePlayerToObject method?
 The test is starting with setting a player's aim into the air, to avoid a possibility to get a false positive results. Then the tests needs you to set the target object name and the custom rotation offset if needed when using the RotatePlayerToObject method. The test itself will try to get an actor that is not a Player (it is controlled by AI) and set a new rotation for them. At the end the assert will be executed, to check if the rotation has been changed.
+
+## 8. Lyra modifications
+No modifications required. All automation tests should run after the proper setup.

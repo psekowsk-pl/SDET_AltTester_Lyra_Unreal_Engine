@@ -4,10 +4,7 @@ namespace Helper.DriverExtension;
 
 public static class DriverExtension
 {
-    public static AltObject GetElementByPath(this AltDriver driver, string value)
-    {
-        return driver.WaitForObject(By.PATH, value, timeout: 10);
-    }
+    public static AltObject GetElementByPath(this AltDriver driver, string value) => driver.WaitForObject(By.PATH, value, timeout: 10);
 
     public static void DoubleCheckClick(this AltDriver driver, string objPathToClick, string objPathToSeen)
     {
