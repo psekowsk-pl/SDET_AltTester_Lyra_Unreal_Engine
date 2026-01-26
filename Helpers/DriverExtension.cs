@@ -6,6 +6,8 @@ public static class DriverExtension
 {
     public static AltObject GetElementByPath(this AltDriver driver, string value) => driver.WaitForObject(By.PATH, value, timeout: 10);
 
+    public static bool IsUIElementVisible(this AltDriver driver, string path) => driver.FindObject(By.PATH, path).enabled;
+
     public static void DoubleCheckClick(this AltDriver driver, string objPathToClick, string objPathToSeen)
     {
         bool objClicked = false;

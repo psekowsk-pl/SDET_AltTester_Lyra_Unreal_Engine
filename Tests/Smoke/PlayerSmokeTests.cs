@@ -44,7 +44,7 @@ public class PlayterSmokeTests : BaseTest
     {
         // Player spawn verification
         Assert.True(Driver.PlayerHasBeenSpawned());
-        Logger.Info("Player has been spawned.");
+        Logger.Info("Player has spawned.");
 
         // Get Player object
         var player = Driver.GetHero();
@@ -89,7 +89,7 @@ public class PlayterSmokeTests : BaseTest
     {
         // Player spawn verification
         Assert.True(Driver.PlayerHasBeenSpawned());
-        Logger.Info("Player has been spawned.");
+        Logger.Info("Player has spawned.");
 
         // Get Player object
         var player = Driver.GetHero();
